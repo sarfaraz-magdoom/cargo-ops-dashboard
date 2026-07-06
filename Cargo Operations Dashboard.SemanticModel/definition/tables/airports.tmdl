@@ -1,0 +1,75 @@
+table airports
+	lineageTag: b83b8877-7ed8-4821-a5c6-5e63884693ce
+
+	column IATA_CODE
+		dataType: string
+		lineageTag: 7ed08727-e3d5-4706-8332-cdb03b44acbc
+		summarizeBy: none
+		sourceColumn: IATA_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIRPORT
+		dataType: string
+		lineageTag: 8bb76062-7ee6-4371-b2b2-9b7abce2a942
+		summarizeBy: none
+		sourceColumn: AIRPORT
+
+		annotation SummarizationSetBy = Automatic
+
+	column CITY
+		dataType: string
+		lineageTag: 3ece2df7-dab2-4c17-83f7-4c85d3fc8594
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATE
+		dataType: string
+		lineageTag: 8b77c8f1-2b35-43d9-8f47-52c2a7fa6fb4
+		summarizeBy: none
+		sourceColumn: STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY
+		dataType: string
+		lineageTag: 6d34605b-5d6a-4346-9ea0-84750d4ceccd
+		summarizeBy: none
+		sourceColumn: COUNTRY
+
+		annotation SummarizationSetBy = Automatic
+
+	column LATITUDE
+		dataType: double
+		lineageTag: f0772eaf-8e50-4697-b774-91f03191869b
+		summarizeBy: none
+		sourceColumn: LATITUDE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LONGITUDE
+		dataType: double
+		lineageTag: 4c0e621e-56b7-4f91-a35a-8ba2e2b9a3e2
+		summarizeBy: none
+		sourceColumn: LONGITUDE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition airports = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\raw\airports.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"IATA_CODE", type text}, {"AIRPORT", type text}, {"CITY", type text}, {"STATE", type text}, {"COUNTRY", type text}, {"LATITUDE", type number}, {"LONGITUDE", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

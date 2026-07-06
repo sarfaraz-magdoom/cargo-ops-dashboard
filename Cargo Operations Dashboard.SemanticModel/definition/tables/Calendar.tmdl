@@ -1,0 +1,78 @@
+table Calendar
+	lineageTag: 0281e376-2e2b-40e0-a82d-a9b633a9830c
+	dataCategory: Time
+
+	column Date
+		isUnique
+		formatString: yyyy-mm-dd
+		lineageTag: 3e84d74c-d296-4d16-9da9-2364c9e6e693
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Year
+		lineageTag: f720de8e-f0bb-4f24-acd9-ed17f1c512bb
+		isNameInferred
+		sourceColumn: [Year]
+
+	column 'Month No'
+		lineageTag: d945d3cd-c1b2-4beb-959d-b1d533c424ae
+		isNameInferred
+		sourceColumn: [Month No]
+
+	column Month
+		lineageTag: 18abeee3-9208-43a9-a772-60449693a856
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month No'
+
+	column 'Month Year'
+		lineageTag: 50365ad6-ed1c-4ddc-aec9-11e08b31b45f
+		isNameInferred
+		sourceColumn: [Month Year]
+
+	column 'Quarter No'
+		lineageTag: c29ad41c-5cdf-4734-b520-be75d4acef66
+		isNameInferred
+		sourceColumn: [Quarter No]
+
+	column Quarter
+		lineageTag: 8cb0525f-2e8c-4690-ae39-d20c786b2b84
+		isNameInferred
+		sourceColumn: [Quarter]
+		sortByColumn: 'Quarter No'
+
+	column 'Quarter Year'
+		lineageTag: 1ad5c566-3beb-44c7-93e9-96e1ce81cba0
+		isNameInferred
+		sourceColumn: [Quarter Year]
+
+	column Day
+		lineageTag: 6fe104f5-fe53-459c-afd8-aa8a962ac43a
+		isNameInferred
+		sourceColumn: [Day]
+
+	column 'Day Name'
+		lineageTag: a2d7be56-7f0f-496e-b36f-f0621acf4076
+		isNameInferred
+		sourceColumn: [Day Name]
+		sortByColumn: 'Day of Week'
+
+	column 'Day of Week'
+		lineageTag: 98586704-8f18-4c39-aee2-cb6031195ae7
+		isNameInferred
+		sourceColumn: [Day of Week]
+
+	column 'Week of Year'
+		lineageTag: cbcc1757-7e7e-423c-8d85-5a361188e39d
+		isNameInferred
+		sourceColumn: [Week of Year]
+
+	column 'Is Weekend'
+		lineageTag: 6bcf5ffd-4087-49e9-8c0f-1cd73c788496
+		isNameInferred
+		sourceColumn: [Is Weekend]
+
+	partition Calendar = calculated
+		mode: import
+		source = ADDCOLUMNS ( CALENDARAUTO (), "Year", YEAR ( [Date] ), "Month No", MONTH ( [Date] ), "Month", FORMAT ( [Date], "MMM" ), "Month Year", FORMAT ( [Date], "MMM YYYY" ), "Quarter No", QUARTER ( [Date] ), "Quarter", "Q" & QUARTER ( [Date] ), "Quarter Year", "Q" & QUARTER ( [Date] ) & " " & YEAR ( [Date] ), "Day", DAY ( [Date] ), "Day Name", FORMAT ( [Date], "ddd" ), "Day of Week", WEEKDAY ( [Date], 2 ), "Week of Year", WEEKNUM ( [Date], 2 ), "Is Weekend", IF ( WEEKDAY ( [Date], 2 ) > 5, TRUE, FALSE ) )
+

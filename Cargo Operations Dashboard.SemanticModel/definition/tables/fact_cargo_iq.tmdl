@@ -1,0 +1,136 @@
+table fact_cargo_iq
+	lineageTag: 218b3d01-b9fa-42a5-a9c0-15b0860506b3
+
+	column hub
+		dataType: string
+		lineageTag: 3b7ed7f5-ea7f-42b5-a20b-220e32a2cccb
+		summarizeBy: none
+		sourceColumn: hub
+
+		annotation SummarizationSetBy = Automatic
+
+	column planned_min
+		dataType: double
+		lineageTag: 321ac9b7-154a-4891-80ed-109802359c93
+		summarizeBy: sum
+		sourceColumn: planned_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column effective_min
+		dataType: double
+		lineageTag: 23107e91-66cd-4f27-b396-ce1a883741db
+		summarizeBy: sum
+		sourceColumn: effective_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column slippage_min
+		dataType: double
+		lineageTag: 0be5371e-4fd4-4c49-9415-daccb56cf56b
+		summarizeBy: sum
+		sourceColumn: slippage_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fap
+		dataType: int64
+		formatString: 0
+		lineageTag: 6bd9c394-18e6-45b9-b6a4-925f9cbb3b3d
+		summarizeBy: sum
+		sourceColumn: fap
+
+		annotation SummarizationSetBy = Automatic
+
+	column dap
+		dataType: int64
+		formatString: 0
+		lineageTag: fd0e7e57-78fc-4817-a7e2-eb009beeaa3c
+		summarizeBy: sum
+		sourceColumn: dap
+
+		annotation SummarizationSetBy = Automatic
+
+	column var_dep
+		dataType: double
+		lineageTag: 6bc0d1c2-24af-4b20-a552-002670b5ec0c
+		summarizeBy: sum
+		sourceColumn: var_dep
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column var_dlv
+		dataType: double
+		lineageTag: 19a6c4f0-6365-404c-846e-170cc83f1a6b
+		summarizeBy: sum
+		sourceColumn: var_dlv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column var_rcf
+		dataType: double
+		lineageTag: 3ae1b451-77bc-46cc-8b0b-846a601b8477
+		summarizeBy: sum
+		sourceColumn: var_rcf
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column var_rcs
+		dataType: double
+		lineageTag: f820acdf-d104-48af-b56b-008248409264
+		summarizeBy: sum
+		sourceColumn: var_rcs
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dwell_min
+		dataType: double
+		lineageTag: 1fafdfe9-e0d8-4244-bd44-00807423e953
+		summarizeBy: sum
+		sourceColumn: dwell_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Milestone Outcome' = SWITCH ( TRUE(), fact_cargo_iq[fap] = 1 && fact_cargo_iq[dap] = 1, "Both Planned & Actual", fact_cargo_iq[fap] = 1 && fact_cargo_iq[dap] = 0, "Planned Only (FAP)", fact_cargo_iq[fap] = 0 && fact_cargo_iq[dap] = 1, "Actual Only (DAP)", "Neither" )
+		dataType: string
+		lineageTag: 1f999379-8fc0-494f-a609-ce56724aae8f
+
+	column 'Slippage Direction' = VAR s = fact_cargo_iq[slippage_min] RETURN SWITCH ( TRUE(), s < 0, "Ahead of Schedule", s = 0, "On Milestone", s <= 60, "Slight Slip (<1h)", s <= 240, "Moderate Slip (1-4h)", "Severe Slip (4h+)" )
+		dataType: string
+		lineageTag: 53a32ef4-f8c2-48fe-8576-105af22f8051
+
+	column 'Dwell Band Sort' = VAR d = fact_cargo_iq[dwell_min] RETURN SWITCH ( TRUE(), d < 0, 0, d <= 720, 1, d <= 1440, 2, d <= 4320, 3, 4 )
+		dataType: int64
+		lineageTag: 3468df2f-bce0-4d1f-a815-3000037cc931
+
+	column 'Dwell Band' = VAR d = fact_cargo_iq[dwell_min] RETURN SWITCH ( TRUE(), d < 0, "Anomalous (negative)", d <= 720, "Fast (<12h)", d <= 1440, "Normal (12-24h)", d <= 4320, "Slow (1-3 days)", "Stuck (3+ days)" )
+		dataType: string
+		lineageTag: 38410ddb-f2f1-4a59-a961-571ef8996557
+		sortByColumn: 'Dwell Band Sort'
+
+	partition Query1 = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\parquet\fact_cargo_iq.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

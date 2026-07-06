@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "otp_severity",
+  "position": {
+    "x": 16.954956092632887,
+    "y": 441.75903746640086,
+    "z": 7000,
+    "height": 196,
+    "width": 620,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_flights"
+                    }
+                  },
+                  "Property": "Delay Severity Band"
+                }
+              },
+              "queryRef": "fact_flights.Delay Severity Band",
+              "nativeQueryRef": "Delay Severity Band",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Total Flights"
+                }
+              },
+              "queryRef": "_KPI Measures.Total Flights",
+              "nativeQueryRef": "Total Flights"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Flights by Delay Severity Band'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

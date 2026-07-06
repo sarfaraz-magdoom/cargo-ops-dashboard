@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k4_sev",
+  "position": {
+    "x": 855.04513133354055,
+    "y": 69.759037466400883,
+    "z": 4000,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Severe Slip %"
+                }
+              },
+              "queryRef": "_KPI Measures.Severe Slip %",
+              "nativeQueryRef": "Severe Slip %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

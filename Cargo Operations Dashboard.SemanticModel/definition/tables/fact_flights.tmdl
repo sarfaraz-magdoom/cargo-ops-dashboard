@@ -1,0 +1,117 @@
+table fact_flights
+	lineageTag: ad998b5a-7b77-438a-9ac8-5a96b532a132
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: e0b76ff1-0ac3-4105-9fb0-d038c2ccfb0f
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: eae774a8-8898-4d44-9292-5b7bfc562182
+		summarizeBy: none
+		sourceColumn: flight_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column carrier
+		dataType: string
+		lineageTag: a13a3822-85d4-49a9-876f-f0b1a645c894
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	column route
+		dataType: string
+		lineageTag: 1c486fb7-e11e-4b45-bc16-ad0fff316d4c
+		summarizeBy: none
+		sourceColumn: route
+
+		annotation SummarizationSetBy = Automatic
+
+	column arr_delay
+		dataType: int64
+		formatString: 0
+		lineageTag: 65fea5b2-89a5-4356-91bf-ec1f24897f3e
+		summarizeBy: sum
+		sourceColumn: arr_delay
+
+		annotation SummarizationSetBy = Automatic
+
+	column dep_delay
+		dataType: int64
+		formatString: 0
+		lineageTag: ea00d3b8-dc76-4a31-8a57-e02773a25ebb
+		summarizeBy: sum
+		sourceColumn: dep_delay
+
+		annotation SummarizationSetBy = Automatic
+
+	column delayed
+		dataType: int64
+		formatString: 0
+		lineageTag: b7d58c44-bb63-4b4c-a206-065a6fbaa778
+		summarizeBy: sum
+		sourceColumn: delayed
+
+		annotation SummarizationSetBy = Automatic
+
+	column on_time
+		dataType: int64
+		formatString: 0
+		lineageTag: ca589430-d2b5-47e1-8e0b-efaa17675cec
+		summarizeBy: sum
+		sourceColumn: on_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column delay_cause
+		dataType: string
+		lineageTag: b0b01791-2f35-4795-8c77-edb18a876bcd
+		summarizeBy: none
+		sourceColumn: delay_cause
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Delay Severity Sort' = VAR d = fact_flights[arr_delay] RETURN SWITCH ( TRUE(), d <= 0, 0, d <= 15, 1, d <= 45, 2, d <= 120, 3, 4 )
+		dataType: int64
+		lineageTag: c9addcf4-b412-4a8d-ac09-ead59abafc6c
+
+	column 'Delay Severity Band' = VAR d = fact_flights[arr_delay] RETURN SWITCH ( TRUE(), d <= 0, "On Time / Early", d <= 15, "Minor (1-15 min)", d <= 45, "Moderate (16-45 min)", d <= 120, "Major (46-120 min)", "Severe (120+ min)" )
+		dataType: string
+		lineageTag: 8217c23e-17fe-4dc7-899d-6eae3fc66b16
+		sortByColumn: 'Delay Severity Sort'
+
+	column 'Recovered In Flight' = IF ( fact_flights[dep_delay] > 0 && fact_flights[arr_delay] <= 0, 1, 0 )
+		dataType: int64
+		lineageTag: 2ee7f443-247a-4d47-b97e-5558d29740fc
+
+	column 'Delay Cause Clean' = SWITCH ( TRUE(), fact_flights[delay_cause] = BLANK() || fact_flights[delay_cause] = "", "None", fact_flights[delay_cause] )
+		dataType: string
+		lineageTag: 50bf5963-ec7a-405b-8955-d54bdff4ba8a
+
+	partition fact_flights = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\parquet\fact_flights"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File", each #"Transform File"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File", Table.ColumnNames(#"Transform File"(#"Sample File"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"flight_date", type date}, {"carrier", type text}, {"route", type text}, {"arr_delay", Int64.Type}, {"dep_delay", Int64.Type}, {"delayed", Int64.Type}, {"on_time", Int64.Type}, {"delay_cause", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,151 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50,
+            "y": 362.27777640691045
+          },
+          "nodeIndex": "dim_carrier",
+          "nodeLineageTag": "1708341c-6dd1-4700-ad18-78613937984f",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 2014.7333131085347,
+            "y": 409.29739838849065
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "85a91987-5376-468d-877c-11f9fd71ff7c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1189.4181443991904,
+            "y": 128.94383729856662
+          },
+          "nodeIndex": "dim_route",
+          "nodeLineageTag": "ba1a5c46-1def-4aa4-8034-d651dbb3b968",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 1140.9542612627056,
+            "y": 424.236690348626
+          },
+          "nodeIndex": "airports",
+          "nodeLineageTag": "b83b8877-7ed8-4821-a5c6-5e63884693ce",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 2843.5950326339203,
+            "y": 216.67062101673537
+          },
+          "nodeIndex": "Calendar",
+          "nodeLineageTag": "0281e376-2e2b-40e0-a82d-a9b633a9830c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 3535.2611289603637,
+            "y": 0
+          },
+          "nodeIndex": "_KPI Measures",
+          "nodeLineageTag": "7351e1cb-4570-4018-8f05-7ab64724dd77",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 3209.3420856192506,
+            "y": 0
+          },
+          "nodeIndex": "fact_flights",
+          "nodeLineageTag": "ad998b5a-7b77-438a-9ac8-5a96b532a132",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 555.34124203347073
+          },
+          "nodeIndex": "DimAirlines",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 3695.5950326339203,
+            "y": 216.67062101673537
+          },
+          "nodeIndex": "fact_tonnage",
+          "nodeLineageTag": "d748bfd4-e947-44d4-9ed4-89a1222125e9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 3979.5950326339203,
+            "y": 216.67062101673537
+          },
+          "nodeIndex": "fact_cargo_iq",
+          "nodeLineageTag": "218b3d01-b9fa-42a5-a9c0-15b0860506b3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 63.287087723234038,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

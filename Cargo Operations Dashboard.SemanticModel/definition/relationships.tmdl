@@ -1,0 +1,34 @@
+relationship 5d848d79-3c63-cf63-4497-27eb55efd789
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimAirlines.IATA_CODE
+	toColumn: dim_carrier.carrier
+
+relationship 15662afa-49ba-e333-3af4-a4e5804cbe79
+	fromColumn: dim_route.origin
+	toColumn: airports.IATA_CODE
+
+relationship AutoDetected_8ce8cea9-698a-4820-b645-35a752baa528
+	fromColumn: fact_flights.route
+	toColumn: dim_route.route
+
+relationship AutoDetected_7367833f-c10b-4aff-a2cb-6e439a5a9218
+	fromColumn: fact_tonnage.route
+	toColumn: dim_route.route
+
+relationship fact_flights_flight_date_Calendar_Date
+	fromColumn: fact_flights.flight_date
+	toColumn: Calendar.Date
+
+relationship fact_tonnage_flight_date_Calendar_Date
+	fromColumn: fact_tonnage.flight_date
+	toColumn: Calendar.Date
+
+relationship fact_flights_carrier_dim_carrier_carrier
+	fromColumn: fact_flights.carrier
+	toColumn: dim_carrier.carrier
+
+relationship fact_tonnage_carrier_dim_carrier_carrier
+	fromColumn: fact_tonnage.carrier
+	toColumn: dim_carrier.carrier
+

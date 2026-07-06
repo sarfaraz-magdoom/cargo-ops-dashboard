@@ -1,0 +1,367 @@
+table '_KPI Measures'
+	lineageTag: 7351e1cb-4570-4018-8f05-7ab64724dd77
+
+	measure 'Total Freight Tonnes' = SUM ( fact_tonnage[freight_tonnes] )
+		formatString: #,0
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: 9c214fa8-f03c-41ed-adba-4769a1accc8e
+
+	measure 'Total Mail Tonnes' = SUM ( fact_tonnage[mail_tonnes] )
+		formatString: #,0
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: 585522b8-f36f-43c2-b369-3aa7340f6c97
+
+	measure 'Total Cargo Tonnes' = [Total Freight Tonnes] + [Total Mail Tonnes]
+		formatString: #,0
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: c5538dbc-df7e-4dbe-883a-4de7f52f01d0
+
+	measure 'Total Segments' = COUNTROWS ( fact_tonnage )
+		formatString: #,0
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: 24361b3e-482e-4623-a4d3-716536335b81
+
+	measure 'Avg Tonnes per Segment' = DIVIDE ( [Total Freight Tonnes], [Total Segments] )
+		formatString: #,0.00
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: 12a5ff8f-e26c-4020-bf55-f68a7baba056
+
+	measure 'Mail Share %' = DIVIDE ( [Total Mail Tonnes], [Total Cargo Tonnes] )
+		formatString: 0.0%
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: ac561a7b-faed-413d-bf48-dbf349943e23
+
+	measure 'Route Count' = DISTINCTCOUNT ( fact_tonnage[route] )
+		formatString: #,0
+		displayFolder: 01 Volume & Tonnage
+		lineageTag: df9cc947-8792-438b-be3c-323603967f96
+
+	measure 'Total Flights' = COUNTROWS ( fact_flights )
+		formatString: #,0
+		displayFolder: 02 On-Time Performance
+		lineageTag: f385319c-1959-4e7e-9cca-e5b4bb8ef31a
+
+	measure 'On-Time Flights' = CALCULATE ( COUNTROWS ( fact_flights ), fact_flights[on_time] = 1 )
+		formatString: #,0
+		displayFolder: 02 On-Time Performance
+		lineageTag: bf02a7e6-c04a-45f9-9083-a9ff382728f4
+
+	measure 'OTP %' = DIVIDE ( [On-Time Flights], [Total Flights] )
+		formatString: 0.0%
+		displayFolder: 02 On-Time Performance
+		lineageTag: 3980c5d5-1fe0-48e6-bc3d-17f06bc90cd0
+
+	measure 'Delayed Flights' = CALCULATE ( COUNTROWS ( fact_flights ), fact_flights[delayed] = 1 )
+		formatString: #,0
+		displayFolder: 02 On-Time Performance
+		lineageTag: c807350b-c958-4543-b896-b3ec12da7060
+
+	measure 'Delayed %' = DIVIDE ( [Delayed Flights], [Total Flights] )
+		formatString: 0.0%
+		displayFolder: 02 On-Time Performance
+		lineageTag: 97979c8c-f197-450a-a45d-08d4f76e1dcd
+
+	measure 'Avg Arrival Delay (min)' = AVERAGE ( fact_flights[arr_delay] )
+		formatString: #,0.0
+		displayFolder: 02 On-Time Performance
+		lineageTag: 878b3964-37fe-45d3-a65d-b9135bef52f4
+
+	measure 'Carrier Count' = DISTINCTCOUNT ( fact_flights[carrier] )
+		formatString: #,0
+		displayFolder: 02 On-Time Performance
+		lineageTag: ffcaea48-e7ff-48cd-9f2a-597a0d3351d2
+
+	measure 'Total RFTK' = SUM ( fact_tonnage[ftk] )
+		formatString: #,0
+		displayFolder: 03 Load Factor & Capacity
+		lineageTag: c4f997c3-d2bb-415a-9c11-c3d10598ff7f
+
+	measure 'Total AFTK' = SUM ( fact_tonnage[aftk] )
+		formatString: #,0
+		displayFolder: 03 Load Factor & Capacity
+		lineageTag: f2657dc8-1c89-431c-942f-4a40c5f4acd5
+
+	measure 'Load Factor %' = DIVIDE ( [Total RFTK], [Total AFTK] )
+		formatString: 0.0%
+		displayFolder: 03 Load Factor & Capacity
+		lineageTag: c61ae318-7c49-471f-871d-6725a6b86c8c
+
+	measure 'Available Capacity FTK' = [Total AFTK] - [Total RFTK]
+		formatString: #,0
+		displayFolder: 03 Load Factor & Capacity
+		lineageTag: 29784b86-93f4-4687-add2-c8b40cf1e8e7
+
+	measure 'Capacity Utilization Gap %' = 1 - [Load Factor %]
+		formatString: 0.0%
+		displayFolder: 03 Load Factor & Capacity
+		lineageTag: e3edd4a6-6d67-4280-93de-c0f882c1f761
+
+	measure 'Total Revenue' = SUM ( fact_tonnage[est_revenue] )
+		formatString: \$#,0
+		displayFolder: 04 Yield & Revenue
+		lineageTag: bd99db76-4d7b-4c8e-be20-a663ca52382f
+
+	measure 'Total FTK' = SUM ( fact_tonnage[ftk] )
+		formatString: #,0
+		displayFolder: 04 Yield & Revenue
+		lineageTag: 2fc70355-0169-4718-b92e-112b83dab046
+
+	measure 'Yield per FTK' = DIVIDE ( [Total Revenue], [Total FTK] )
+		formatString: \$#,0.0000
+		displayFolder: 04 Yield & Revenue
+		lineageTag: d6bc7208-e41f-4d8c-95da-812e6beefece
+
+	measure 'Revenue per Tonne' = DIVIDE ( [Total Revenue], SUM ( fact_tonnage[freight_tonnes] ) )
+		formatString: \$#,0.00
+		displayFolder: 04 Yield & Revenue
+		lineageTag: 9fe752fc-0402-4580-978b-cb2656711f40
+
+	measure 'Revenue per Carrier' = DIVIDE ( [Total Revenue], DISTINCTCOUNT ( fact_tonnage[carrier] ) )
+		formatString: \$#,0
+		displayFolder: 04 Yield & Revenue
+		lineageTag: ce88c355-6d0e-4acc-a30f-6aa352454014
+
+	measure 'Revenue % of Total' = DIVIDE ( [Total Revenue], CALCULATE ( [Total Revenue], REMOVEFILTERS ( fact_tonnage ) ) )
+		formatString: 0.0%
+		displayFolder: 04 Yield & Revenue
+		lineageTag: ed573c62-a3f0-48cc-aaed-909720059036
+
+	measure 'Avg Dwell (min)' = AVERAGE ( fact_cargo_iq[dwell_min] )
+		formatString: #,0.0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: ce17ae7f-fb06-4446-8e23-9d4e7a9488e6
+
+	measure 'Total Shipments' = COUNTROWS ( fact_cargo_iq )
+		formatString: #,0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: 86284fe8-eae8-4c7f-9aba-43184ed2efb4
+
+	measure 'Total FAP Count' = SUM ( fact_cargo_iq[fap] )
+		formatString: #,0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: 80d7059f-7eb2-4bad-93b6-a8d5b1b9ffdc
+
+	measure 'Hub Count' = DISTINCTCOUNT ( fact_cargo_iq[hub] )
+		formatString: #,0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: 09317672-91c8-4776-b7ac-44035ad0614e
+
+	measure 'Shipments per Hub' = DIVIDE ( [Total Shipments], [Hub Count] )
+		formatString: #,0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: 27085782-ba51-4f64-acfe-24fc9e581553
+
+	measure 'Avg Milestone Slip (min)' = AVERAGE ( fact_cargo_iq[slippage_min] )
+		formatString: #,0.0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: 0b8edbf7-b7fe-4676-a2e9-709587bb6c07
+
+	measure 'Milestone Count' = COUNTROWS ( fact_cargo_iq )
+		formatString: #,0
+		displayFolder: 05 Hub Dwell & Milestones
+		lineageTag: 94a75b87-52cb-4b00-b9fa-c319600a974d
+
+	measure 'Tonnes YTD' = TOTALYTD ( [Total Freight Tonnes], 'Calendar'[Date] )
+		formatString: #,0
+		displayFolder: 06 Time Intelligence
+		lineageTag: 7c0ef80c-0698-46a2-b792-960912e3380e
+
+	measure 'Tonnes QTD' = TOTALQTD ( [Total Freight Tonnes], 'Calendar'[Date] )
+		formatString: #,0
+		displayFolder: 06 Time Intelligence
+		lineageTag: 414ded40-a54a-44bb-947e-10278e4b0617
+
+	measure 'Tonnes MTD' = TOTALMTD ( [Total Freight Tonnes], 'Calendar'[Date] )
+		formatString: #,0
+		displayFolder: 06 Time Intelligence
+		lineageTag: 83019a02-e7a9-4b20-8dff-b706202d3a92
+
+	measure 'Tonnes PY' = CALCULATE ( [Total Freight Tonnes], SAMEPERIODLASTYEAR ( 'Calendar'[Date] ) )
+		formatString: #,0
+		displayFolder: 06 Time Intelligence
+		lineageTag: 58fb8ed2-54ca-4138-b481-e8603fe8433b
+
+	measure 'Tonnes YoY %' = DIVIDE ( [Total Freight Tonnes] - [Tonnes PY], [Tonnes PY] )
+		formatString: 0.0%
+		displayFolder: 06 Time Intelligence
+		lineageTag: 14e9c935-1a60-42c4-be9c-376641516759
+
+	measure 'Revenue YTD' = TOTALYTD ( [Total Revenue], 'Calendar'[Date] )
+		formatString: \$#,0
+		displayFolder: 06 Time Intelligence
+		lineageTag: 178b43f4-0eea-4d49-81f5-5832abc0eb38
+
+	measure 'Revenue PY' = CALCULATE ( [Total Revenue], SAMEPERIODLASTYEAR ( 'Calendar'[Date] ) )
+		formatString: \$#,0
+		displayFolder: 06 Time Intelligence
+		lineageTag: 0211ceeb-0f55-4b98-9490-a55885048373
+
+	measure 'Revenue YoY %' = DIVIDE ( [Total Revenue] - [Revenue PY], [Revenue PY] )
+		formatString: 0.0%
+		displayFolder: 06 Time Intelligence
+		lineageTag: a7c6b03a-8ee4-41ef-9689-f5608af01e80
+
+	measure 'OTP % PY' = CALCULATE ( [OTP %], SAMEPERIODLASTYEAR ( 'Calendar'[Date] ) )
+		formatString: 0.0%
+		displayFolder: 06 Time Intelligence
+		lineageTag: e16a498d-c1b2-42fb-b828-1f561694c2b0
+
+	measure 'OTP % YoY (pts)' = [OTP %] - [OTP % PY]
+		formatString: 0.0%
+		displayFolder: 06 Time Intelligence
+		lineageTag: 37664eee-446c-487c-8628-500129451f66
+
+	measure 'Carrier Rank by Tonnes' = RANKX ( ALLSELECTED ( dim_carrier[carrier] ), [Total Freight Tonnes],, DESC, DENSE )
+		formatString: #,0
+		displayFolder: 07 Rankings
+		lineageTag: a628980e-2da6-47e7-8066-544ff2840686
+
+	measure 'Carrier Rank by OTP' = RANKX ( ALLSELECTED ( dim_carrier[carrier] ), [OTP %],, DESC, DENSE )
+		formatString: #,0
+		displayFolder: 07 Rankings
+		lineageTag: d5ce562a-a9ae-4089-a880-09073e27a146
+
+	measure 'Carrier Rank by Revenue' = RANKX ( ALLSELECTED ( dim_carrier[carrier] ), [Total Revenue],, DESC, DENSE )
+		formatString: #,0
+		displayFolder: 07 Rankings
+		lineageTag: 19961637-934b-467a-abd1-5eaaf6e8f4c2
+
+	measure 'Route Rank by Tonnes' = RANKX ( ALLSELECTED ( dim_route[route] ), [Total Freight Tonnes],, DESC, DENSE )
+		formatString: #,0
+		displayFolder: 07 Rankings
+		lineageTag: fc383210-2bc7-40fd-be67-86ed46a8a4da
+
+	measure 'Avg Load Factor (scorecard)' = DIVIDE ( SUM ( fact_tonnage[ftk] ), SUM ( fact_tonnage[aftk] ) )
+		formatString: 0.0
+		displayFolder: 00 Summary KPIs
+		lineageTag: b52d5034-d2c3-4e03-935e-62f6f7bb1e4b
+
+	measure 'Avg Tonnes per Flight' = DIVIDE ( [Total Freight Tonnes], [Total Flights] )
+		formatString: #,0.00
+		displayFolder: 00 Summary KPIs
+		lineageTag: e4547490-6aa6-4944-8eba-1aee61e56806
+
+	measure 'Selected Date Range' = VAR _min = MIN ( 'Calendar'[Date] ) VAR _max = MAX ( 'Calendar'[Date] ) RETURN FORMAT ( _min, "dd MMM yyyy" ) & " – " & FORMAT ( _max, "dd MMM yyyy" )
+		displayFolder: 00 Summary KPIs
+		lineageTag: 138b201c-b571-4d77-888d-dd42f10d8e99
+
+	measure 'OTP % 3-Mo Moving Avg' = AVERAGEX ( DATESINPERIOD ( 'Calendar'[Date], MAX ( 'Calendar'[Date] ), -3, MONTH ), [OTP %] )
+		formatString: 0.0%
+		displayFolder: 06 Time Intelligence
+		lineageTag: 11af7a21-c161-4ec0-a2ce-c1296c478222
+
+	measure 'Severe Delay Flights' = CALCULATE ( COUNTROWS ( fact_flights ), fact_flights[Delay Severity Band] = "Severe (120+ min)" )
+		formatString: #,0
+		displayFolder: 08 Delay Diagnostics
+		lineageTag: 254f0969-542e-4eda-ad82-ad3c2a068621
+
+	measure 'Severe Delay %' = DIVIDE ( [Severe Delay Flights], [Total Flights] )
+		formatString: 0.0%
+		displayFolder: 08 Delay Diagnostics
+		lineageTag: d9b5fae5-1a80-4400-8bd5-32e8899340ff
+
+	measure 'Major+ Delay Flights' = CALCULATE ( COUNTROWS ( fact_flights ), fact_flights[Delay Severity Band] IN { "Major (46-120 min)", "Severe (120+ min)" } )
+		formatString: #,0
+		displayFolder: 08 Delay Diagnostics
+		lineageTag: b14570a4-33ec-4945-9764-951842213057
+
+	measure 'Major+ Delay %' = DIVIDE ( [Major+ Delay Flights], [Total Flights] )
+		formatString: 0.0%
+		displayFolder: 08 Delay Diagnostics
+		lineageTag: 78e87ffb-7765-4d9a-b640-51d50dc8fb23
+
+	measure 'Recovered Flights' = SUM ( fact_flights[Recovered In Flight] )
+		formatString: #,0
+		displayFolder: 08 Delay Diagnostics
+		lineageTag: fa7dc1cd-f597-4f39-aff0-59e7cb959f9a
+
+	measure 'In-Flight Recovery Rate' = DIVIDE ( [Recovered Flights], CALCULATE ( COUNTROWS ( fact_flights ), fact_flights[dep_delay] > 0 ) )
+		formatString: 0.0%
+		displayFolder: 08 Delay Diagnostics
+		lineageTag: 422b7cb3-de25-472c-b28f-e8a4507c37f7
+
+	measure 'Underutilized Segments' = CALCULATE ( COUNTROWS ( fact_tonnage ), fact_tonnage[Load Factor Band] = "Underutilized (<50%)" )
+		formatString: #,0
+		displayFolder: 09 Utilization Mix
+		lineageTag: 2c7ef7c5-4417-47e4-85cf-de71d1e446c5
+
+	measure 'Underutilized Segment %' = DIVIDE ( [Underutilized Segments], COUNTROWS ( fact_tonnage ) )
+		formatString: 0.0%
+		displayFolder: 09 Utilization Mix
+		lineageTag: c1179558-634e-46c8-bba4-9098bab5debb
+
+	measure 'Well-Utilized Segments' = CALCULATE ( COUNTROWS ( fact_tonnage ), fact_tonnage[Load Factor Band] IN { "Healthy (70-85%)", "High (85%+)" } )
+		formatString: #,0
+		displayFolder: 09 Utilization Mix
+		lineageTag: bcfbca9b-cc5a-4d9e-8c40-994a8dccf452
+
+	measure 'Well-Utilized Segment %' = DIVIDE ( [Well-Utilized Segments], COUNTROWS ( fact_tonnage ) )
+		formatString: 0.0%
+		displayFolder: 09 Utilization Mix
+		lineageTag: e9d378c8-3b4e-4b55-8b68-66980ade0b55
+
+	measure 'Avg Segment Load Factor' = AVERAGE ( fact_tonnage[Row Load Factor] )
+		formatString: 0.0%
+		displayFolder: 09 Utilization Mix
+		lineageTag: 341ce327-4676-4bf5-9b58-d0328220d08b
+
+	measure 'Premium Yield Revenue' = CALCULATE ( [Total Revenue], fact_tonnage[Yield Tier] = "Premium Yield" )
+		formatString: \$#,0
+		displayFolder: 09 Utilization Mix
+		lineageTag: 8ca702e1-ac8a-456a-8946-d263a8ce4925
+
+	measure 'Premium Yield Revenue %' = DIVIDE ( [Premium Yield Revenue], [Total Revenue] )
+		formatString: 0.0%
+		displayFolder: 09 Utilization Mix
+		lineageTag: 86066811-6b5a-4130-ae8d-5d1a606ebb6d
+
+	measure 'FAP Rate' = DIVIDE ( SUM ( fact_cargo_iq[fap] ), COUNTROWS ( fact_cargo_iq ) )
+		formatString: 0.0%
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: 1d28542e-0d25-4f0c-8ddb-4e8674e22755
+
+	measure 'DAP Rate' = DIVIDE ( SUM ( fact_cargo_iq[dap] ), COUNTROWS ( fact_cargo_iq ) )
+		formatString: 0.0%
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: 4828dae0-a078-41b5-b6a8-cb37a6384e1b
+
+	measure 'Severe Slip Shipments' = CALCULATE ( COUNTROWS ( fact_cargo_iq ), fact_cargo_iq[Slippage Direction] = "Severe Slip (4h+)" )
+		formatString: #,0
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: 20160d4e-3602-47c4-a12f-4022ef543729
+
+	measure 'Severe Slip %' = DIVIDE ( [Severe Slip Shipments], COUNTROWS ( fact_cargo_iq ) )
+		formatString: 0.0%
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: 3c4e29fd-8bd5-4817-8a87-908b7a943d7c
+
+	measure 'Ahead of Schedule Shipments' = CALCULATE ( COUNTROWS ( fact_cargo_iq ), fact_cargo_iq[Slippage Direction] = "Ahead of Schedule" )
+		formatString: #,0
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: 3a53e047-590d-461b-b995-84aac4280cb3
+
+	measure 'Ahead of Schedule %' = DIVIDE ( [Ahead of Schedule Shipments], COUNTROWS ( fact_cargo_iq ) )
+		formatString: 0.0%
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: a91c6e2c-56a7-418b-8861-b051379bfb6a
+
+	measure 'Anomalous Dwell Records' = CALCULATE ( COUNTROWS ( fact_cargo_iq ), fact_cargo_iq[Dwell Band] = "Anomalous (negative)" )
+		formatString: #,0
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: e43936f9-db95-4707-97a5-2ef61da1b3f7
+
+	measure 'Data Quality Flag %' = DIVIDE ( [Anomalous Dwell Records], COUNTROWS ( fact_cargo_iq ) )
+		formatString: 0.0%
+		displayFolder: 10 Cargo iQ Quality
+		lineageTag: 306ade33-de95-4d33-95df-73382061e996
+
+	column Value
+		isHidden
+		lineageTag: 4ee084b5-20f4-40a4-83c9-76187f1c9f36
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition '_KPI Measures' = calculated
+		mode: import
+		source = { BLANK() }
+

@@ -1,0 +1,34 @@
+# ---- Large data: regenerate via the ETL pipeline (see README) ----
+data/
+*.parquet
+
+# ---- Power BI build artifacts (source of truth is the .pbip / PBIR + TMDL) ----
+*.pbix
+
+# ---- Power BI local caches & user settings ----
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/
+
+# ---- Working / backup copies ----
+*- Copy.*
+* - Copy.*
+Back up files/
+
+# ---- Claude Code tooling (local config, not part of the project) ----
+.claude/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# ---- Python ----
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/

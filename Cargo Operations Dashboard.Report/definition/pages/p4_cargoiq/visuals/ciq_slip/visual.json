@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ciq_slip",
+  "position": {
+    "x": 791.04513133354055,
+    "y": 177.75903746640086,
+    "z": 7000,
+    "height": 248,
+    "width": 472,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_cargo_iq"
+                    }
+                  },
+                  "Property": "Slippage Direction"
+                }
+              },
+              "queryRef": "fact_cargo_iq.Slippage Direction",
+              "nativeQueryRef": "Slippage Direction",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Total Shipments"
+                }
+              },
+              "queryRef": "_KPI Measures.Total Shipments",
+              "nativeQueryRef": "Total Shipments"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Shipment Mix by Milestone Slippage'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

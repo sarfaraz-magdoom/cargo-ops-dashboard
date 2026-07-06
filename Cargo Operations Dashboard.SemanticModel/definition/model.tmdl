@@ -1,0 +1,43 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transform File from fact_flights'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from fact_flights\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from fact_tonnage'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transform File from fact_tonnage\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["vw_carrier_scorecard","vw_dwell_by_hub","vw_load_factor_by_route","vw_milestone_variance","vw_otp_by_carrier","vw_tonnage_by_route","vw_yield_by_carrier","vw_otp_trend","dim_carrier","dim_date","dim_route","DimAirlines","airports","_Measures","fact_flights","Sample File","Parameter1","Transform Sample File","Transform File","fact_tonnage","Sample File (2)","Parameter2","Transform Sample File (2)","Transform File (2)","fact_cargo_iq"]
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table dim_carrier
+ref table dim_date
+ref table dim_route
+ref table DimAirlines
+ref table airports
+ref table Calendar
+ref table '_KPI Measures'
+ref table fact_flights
+ref table fact_tonnage
+ref table fact_cargo_iq
+
+ref cultureInfo en-IN
+

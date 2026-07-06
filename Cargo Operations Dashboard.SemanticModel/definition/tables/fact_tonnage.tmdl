@@ -1,0 +1,142 @@
+table fact_tonnage
+	lineageTag: d748bfd4-e947-44d4-9ed4-89a1222125e9
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: c90f247e-c164-4ad0-9a8b-df1ae78ce47c
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8c9e9df4-c287-46be-9760-9b7f1b0a3a4c
+		summarizeBy: none
+		sourceColumn: flight_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column carrier
+		dataType: string
+		lineageTag: 5e344532-7216-4b2d-8620-dba5ae003bf2
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	column route
+		dataType: string
+		lineageTag: b0f4fde2-9999-4d93-9109-caa8d03e4010
+		summarizeBy: none
+		sourceColumn: route
+
+		annotation SummarizationSetBy = Automatic
+
+	column freight_tonnes
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f44c940-3928-401a-a286-016170f87e6a
+		summarizeBy: sum
+		sourceColumn: freight_tonnes
+
+		annotation SummarizationSetBy = Automatic
+
+	column mail_tonnes
+		dataType: int64
+		formatString: 0
+		lineageTag: 1da3f4e1-120a-4581-9e2d-58721b641115
+		summarizeBy: sum
+		sourceColumn: mail_tonnes
+
+		annotation SummarizationSetBy = Automatic
+
+	column capacity_tonnes
+		dataType: int64
+		formatString: 0
+		lineageTag: 93a68e32-7237-4cb8-8975-0889eb2b5fc1
+		summarizeBy: sum
+		sourceColumn: capacity_tonnes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ftk
+		dataType: int64
+		formatString: 0
+		lineageTag: 0aa55c78-a2da-4445-b9e1-0b5c2450d18c
+		summarizeBy: sum
+		sourceColumn: ftk
+
+		annotation SummarizationSetBy = Automatic
+
+	column aftk
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b495618-87b4-4e9d-88b1-2f7217eecc3d
+		summarizeBy: sum
+		sourceColumn: aftk
+
+		annotation SummarizationSetBy = Automatic
+
+	column yield_per_ftk
+		dataType: double
+		lineageTag: f8c66b75-3ebc-4a47-a3af-40fd6581a60c
+		summarizeBy: sum
+		sourceColumn: yield_per_ftk
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column est_revenue
+		dataType: int64
+		formatString: 0
+		lineageTag: fcc5864b-3b4a-4006-bf9c-d9e4931f21b3
+		summarizeBy: sum
+		sourceColumn: est_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Load Factor' = DIVIDE ( fact_tonnage[ftk], fact_tonnage[aftk] )
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 89487ad5-f9a7-4218-97da-d94871ceaae5
+
+	column 'Load Factor Band Sort' = VAR lf = DIVIDE ( fact_tonnage[ftk], fact_tonnage[aftk] ) RETURN SWITCH ( TRUE(), lf = BLANK(), 0, lf < 0.5, 1, lf < 0.7, 2, lf < 0.85, 3, 4 )
+		dataType: int64
+		lineageTag: 4bf36314-43c6-4574-b8e2-d8471d52d2d9
+
+	column 'Load Factor Band' = VAR lf = DIVIDE ( fact_tonnage[ftk], fact_tonnage[aftk] ) RETURN SWITCH ( TRUE(), ISBLANK ( lf ), "No Capacity", lf < 0.5, "Underutilized (<50%)", lf < 0.7, "Moderate (50-70%)", lf < 0.85, "Healthy (70-85%)", "High (85%+)" )
+		dataType: string
+		lineageTag: 22e6ccd7-bbff-4e28-b663-0d8b5c15672a
+		sortByColumn: 'Load Factor Band Sort'
+
+	column 'Yield Tier' = VAR y = fact_tonnage[yield_per_ftk] RETURN SWITCH ( TRUE(), y = 0 || ISBLANK ( y ), "No Yield", y < 0.20, "Low Yield", y < 0.30, "Mid Yield", "Premium Yield" )
+		dataType: string
+		lineageTag: f9d4f295-8149-466d-8bfa-7331853389c8
+
+	column 'Is Mail Dominant' = IF ( fact_tonnage[mail_tonnes] > fact_tonnage[freight_tonnes], 1, 0 )
+		dataType: int64
+		lineageTag: c79ba017-81f5-471f-b165-4ccddf412c93
+
+	partition fact_tonnage = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\parquet\fact_tonnage"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (2)", each #"Transform File (2)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (2)"(#"Sample File (2)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"flight_date", type date}, {"carrier", type text}, {"route", type text}, {"freight_tonnes", Int64.Type}, {"mail_tonnes", Int64.Type}, {"capacity_tonnes", Int64.Type}, {"ftk", Int64.Type}, {"aftk", Int64.Type}, {"yield_per_ftk", type number}, {"est_revenue", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

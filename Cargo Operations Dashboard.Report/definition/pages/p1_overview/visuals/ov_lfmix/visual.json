@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ov_lfmix",
+  "position": {
+    "x": 792,
+    "y": 181.36897002253647,
+    "z": 6000,
+    "height": 248,
+    "width": 472,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_tonnage"
+                    }
+                  },
+                  "Property": "Load Factor Band"
+                }
+              },
+              "queryRef": "fact_tonnage.Load Factor Band",
+              "nativeQueryRef": "Load Factor Band",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Total Segments"
+                }
+              },
+              "queryRef": "_KPI Measures.Total Segments",
+              "nativeQueryRef": "Total Segments"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segment Mix by Load Factor Band'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

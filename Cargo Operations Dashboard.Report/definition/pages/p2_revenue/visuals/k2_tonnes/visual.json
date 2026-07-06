@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k2_tonnes",
+  "position": {
+    "x": 15.04508762045384,
+    "y": 69.759037466400883,
+    "z": 0,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Total Freight Tonnes"
+                }
+              },
+              "queryRef": "_KPI Measures.Total Freight Tonnes",
+              "nativeQueryRef": "Total Freight Tonnes"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

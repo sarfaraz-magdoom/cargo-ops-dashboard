@@ -1,0 +1,36 @@
+table DimAirlines
+	lineageTag: aa9db036-f6ce-4eca-a34d-5d8c3ff7dce3
+
+	column IATA_CODE
+		dataType: string
+		lineageTag: d13c28f1-c43a-45af-b6ae-75d1836e8e0f
+		summarizeBy: none
+		sourceColumn: IATA_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIRLINE
+		dataType: string
+		lineageTag: 553a264f-2516-4c1a-b761-bb2d2fcb73a7
+		summarizeBy: none
+		sourceColumn: AIRLINE
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimAirlines = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\raw\airlines.csv"),[Delimiter=",", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"IATA_CODE", type text}, {"AIRLINE", type text}})
+				in
+				    #"Changed Type1"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

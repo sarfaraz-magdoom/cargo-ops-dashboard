@@ -1,0 +1,49 @@
+table dim_route
+	lineageTag: ba1a5c46-1def-4aa4-8034-d651dbb3b968
+
+	column route_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0c044eef-ea41-4a76-b35b-f3bcd57dbb3a
+		summarizeBy: sum
+		sourceColumn: route_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column route
+		dataType: string
+		lineageTag: 6d9da3cd-ebfe-4bfc-8fcd-bf4dba70b74e
+		summarizeBy: none
+		sourceColumn: route
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin
+		dataType: string
+		lineageTag: 174c579b-dab2-492f-8364-a5e37daff0c7
+		summarizeBy: none
+		sourceColumn: origin
+
+		annotation SummarizationSetBy = Automatic
+
+	column dest
+		dataType: string
+		lineageTag: 3af50d25-cb9c-4fdb-8636-032a1affa3e0
+		summarizeBy: none
+		sourceColumn: dest
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_route = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("MUFLIHASARFARAZ\SQLEXPRESS", "CargoOps"),
+				    dbo_dim_route = Source{[Schema="dbo",Item="dim_route"]}[Data]
+				in
+				    dbo_dim_route
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k4_dwell",
+  "position": {
+    "x": 645.04513133354055,
+    "y": 69.759037466400883,
+    "z": 3000,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Avg Dwell (min)"
+                }
+              },
+              "queryRef": "_KPI Measures.Avg Dwell (min)",
+              "nativeQueryRef": "Avg Dwell (min)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

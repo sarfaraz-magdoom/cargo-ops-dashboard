@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Cargo Operations Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "daef9d80-1806-4d55-9293-6de1c148a28b"
+  }
+}

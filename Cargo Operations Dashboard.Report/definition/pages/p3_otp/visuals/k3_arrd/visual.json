@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k3_arrd",
+  "position": {
+    "x": 436.95495609263287,
+    "y": 69.759037466400883,
+    "z": 2000,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Avg Arrival Delay (min)"
+                }
+              },
+              "queryRef": "_KPI Measures.Avg Arrival Delay (min)",
+              "nativeQueryRef": "Avg Arrival Delay (min)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,93 @@
+expression _Measures =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+		in
+		    #"Removed Columns"
+	lineageTag: ce5a20da-0a89-4b6e-bd3f-b38375b9a78f
+
+	annotation PBI_ResultType = Table
+
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 84639771-86d1-45a5-9f1b-77b06ded2e70
+	queryGroup: 'Transform File from fact_flights\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Sample File' =
+		let
+		    Source = Folder.Files("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\parquet\fact_flights"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 2babf198-5c4d-4999-b7b8-62c5e8b2973c
+	queryGroup: 'Transform File from fact_flights\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File' =
+		let
+		    Source = Parquet.Document(Parameter1, [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+		in
+		    Source
+	lineageTag: 6b95aa39-c3b1-44b7-bd48-cf780a427fb0
+	queryGroup: 'Transform File from fact_flights'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Parquet.Document(Parameter1, [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+		in
+		    Source
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File""}" ]
+	lineageTag: aa49821c-7675-4613-a4b2-c8dc81512a59
+	queryGroup: 'Transform File from fact_flights\Helper Queries'
+
+	annotation PBI_ResultType = Exception
+
+expression Parameter2 = #"Sample File (2)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (2)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: d827758c-e635-4c59-93c8-9fea4522491f
+	queryGroup: 'Transform File from fact_tonnage\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Sample File (2)' =
+		let
+		    Source = Folder.Files("C:\Users\sarfa\OneDrive\cargo-ops-dashboard\data\parquet\fact_tonnage"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: f5d4df09-697b-4448-a230-bfe36f8782e4
+	queryGroup: 'Transform File from fact_tonnage\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (2)' =
+		let
+		    Source = Parquet.Document(Parameter2, [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+		in
+		    Source
+	lineageTag: 07a7996b-983a-486e-9e12-c140422f71e7
+	queryGroup: 'Transform File from fact_tonnage'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File (2)' =
+		let
+		    Source = (Parameter2 as binary) => let
+		    Source = Parquet.Document(Parameter2, [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+		in
+		    Source
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (2)""}" ]
+	lineageTag: e92222df-972c-4664-b494-de80b621f513
+	queryGroup: 'Transform File from fact_tonnage\Helper Queries'
+
+	annotation PBI_ResultType = Function
+

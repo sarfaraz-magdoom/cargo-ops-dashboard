@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "otp_cause",
+  "position": {
+    "x": 792.95495609263287,
+    "y": 177.75903746640088,
+    "z": 6000,
+    "height": 248,
+    "width": 472,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_flights"
+                    }
+                  },
+                  "Property": "Delay Cause Clean"
+                }
+              },
+              "queryRef": "fact_flights.Delay Cause Clean",
+              "nativeQueryRef": "Delay Cause Clean",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Delayed Flights"
+                }
+              },
+              "queryRef": "_KPI Measures.Delayed Flights",
+              "nativeQueryRef": "Delayed Flights"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Delayed Flights by Cause'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

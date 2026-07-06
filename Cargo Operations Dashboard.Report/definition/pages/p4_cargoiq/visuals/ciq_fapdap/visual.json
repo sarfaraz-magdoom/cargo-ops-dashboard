@@ -1,0 +1,86 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ciq_fapdap",
+  "position": {
+    "x": 651.04513133354055,
+    "y": 441.75903746640086,
+    "z": 9000,
+    "height": 196,
+    "width": 612,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_cargo_iq"
+                    }
+                  },
+                  "Property": "hub"
+                }
+              },
+              "queryRef": "fact_cargo_iq.hub",
+              "nativeQueryRef": "hub",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "FAP Rate"
+                }
+              },
+              "queryRef": "_KPI Measures.FAP Rate",
+              "nativeQueryRef": "FAP Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "DAP Rate"
+                }
+              },
+              "queryRef": "_KPI Measures.DAP Rate",
+              "nativeQueryRef": "DAP Rate"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Flown-as-Planned vs Delivered-as-Planned by Hub'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

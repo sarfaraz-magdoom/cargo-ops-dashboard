@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k2_prem",
+  "position": {
+    "x": 855.04508762045384,
+    "y": 69.759037466400883,
+    "z": 4000,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Premium Yield Revenue %"
+                }
+              },
+              "queryRef": "_KPI Measures.Premium Yield Revenue %",
+              "nativeQueryRef": "Premium Yield Revenue %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

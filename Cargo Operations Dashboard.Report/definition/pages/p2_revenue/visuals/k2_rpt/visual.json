@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k2_rpt",
+  "position": {
+    "x": 645.04508762045384,
+    "y": 69.759037466400883,
+    "z": 3000,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Revenue per Tonne"
+                }
+              },
+              "queryRef": "_KPI Measures.Revenue per Tonne",
+              "nativeQueryRef": "Revenue per Tonne"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

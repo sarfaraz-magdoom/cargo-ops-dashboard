@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "k4_ahead",
+  "position": {
+    "x": 1065.0451313335407,
+    "y": 69.759037466400883,
+    "z": 5000,
+    "height": 102,
+    "width": 198,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Ahead of Schedule %"
+                }
+              },
+              "queryRef": "_KPI Measures.Ahead of Schedule %",
+              "nativeQueryRef": "Ahead of Schedule %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

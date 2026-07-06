@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ciq_dwellband",
+  "position": {
+    "x": 15.045131333540565,
+    "y": 441.75903746640086,
+    "z": 8000,
+    "height": 196,
+    "width": 620,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_cargo_iq"
+                    }
+                  },
+                  "Property": "Dwell Band"
+                }
+              },
+              "queryRef": "fact_cargo_iq.Dwell Band",
+              "nativeQueryRef": "Dwell Band",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Total Shipments"
+                }
+              },
+              "queryRef": "_KPI Measures.Total Shipments",
+              "nativeQueryRef": "Total Shipments"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Shipments by Dwell Band'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

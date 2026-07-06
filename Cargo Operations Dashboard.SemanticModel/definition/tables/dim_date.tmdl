@@ -1,0 +1,58 @@
+table dim_date
+	lineageTag: 85a91987-5376-468d-877c-11f9fd71ff7c
+
+	column flight_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7764526e-5c1d-4218-a316-c1e075bbd25f
+		summarizeBy: none
+		sourceColumn: flight_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c84b25c-5f4d-4838-8318-5fa1ab032804
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: b157790c-5858-46cf-b674-95d4619ea1d9
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: e1abd23b-3e60-45cd-b53f-4ba5289e1280
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: e7e1081d-9401-4c47-824a-5dfe241215bc
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("MUFLIHASARFARAZ\SQLEXPRESS", "CargoOps"),
+				    dbo_dim_date = Source{[Schema="dbo",Item="dim_date"]}[Data]
+				in
+				    dbo_dim_date
+
+	annotation PBI_ResultType = Table
+

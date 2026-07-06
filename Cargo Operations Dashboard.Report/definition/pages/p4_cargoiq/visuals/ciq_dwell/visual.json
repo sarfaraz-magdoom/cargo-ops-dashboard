@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ciq_dwell",
+  "position": {
+    "x": 15.045131333540565,
+    "y": 177.75903746640086,
+    "z": 6000,
+    "height": 248,
+    "width": 760,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_cargo_iq"
+                    }
+                  },
+                  "Property": "hub"
+                }
+              },
+              "queryRef": "fact_cargo_iq.hub",
+              "nativeQueryRef": "hub",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Avg Dwell (min)"
+                }
+              },
+              "queryRef": "_KPI Measures.Avg Dwell (min)",
+              "nativeQueryRef": "Avg Dwell (min)"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average Dwell Time by Hub (minutes)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "kpi_tonnes",
+  "position": {
+    "x": 15.756294684488653,
+    "y": 73.529367908765934,
+    "z": 0,
+    "height": 101.69972023624494,
+    "width": 197.66987876903946,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_KPI Measures"
+                    }
+                  },
+                  "Property": "Total Cargo Tonnes"
+                }
+              },
+              "queryRef": "_KPI Measures.Total Cargo Tonnes",
+              "nativeQueryRef": "Total Cargo Tonnes"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

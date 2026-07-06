@@ -1,0 +1,31 @@
+table dim_carrier
+	lineageTag: 1708341c-6dd1-4700-ad18-78613937984f
+
+	column carrier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a6cc2ade-491a-4d93-b4ea-fee8a05db98d
+		summarizeBy: sum
+		sourceColumn: carrier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier
+		dataType: string
+		lineageTag: d67c5f5e-a5d6-4ddb-ad89-2810c210a170
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_carrier = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("MUFLIHASARFARAZ\SQLEXPRESS", "CargoOps"),
+				    dbo_dim_carrier = Source{[Schema="dbo",Item="dim_carrier"]}[Data]
+				in
+				    dbo_dim_carrier
+
+	annotation PBI_ResultType = Table
+
