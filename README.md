@@ -2,7 +2,7 @@
 
 An end‑to‑end **data‑engineering + analytics** project: a SQL → Python → Parquet → Power BI pipeline feeding a 4‑page executive dashboard that turns ~5.7M air‑cargo movements into decision‑ready KPIs, trends and insights.
 
-> **Stack:** SQL Server · Python (pandas / pyarrow) · Parquet · Power BI (star‑schema model, 71 DAX measures, PBIR enhanced report format)
+> **Stack:** SQL Server · Python (polars / pyarrow) · Parquet · Power BI (star‑schema model, 71 DAX measures, PBIR enhanced report format)
 
 ---
 
@@ -14,7 +14,7 @@ An end‑to‑end **data‑engineering + analytics** project: a SQL → Python �
 | **On‑Time & Delay Performance** | **Cargo iQ Quality & Hub Dwell** |
 | ![OTP](docs/screenshots/03-otp.png) | ![CargoIQ](docs/screenshots/04-cargoiq.png) |
 
-🔗 **Live report:** _(add your Power BI “Publish to web” link here)_
+🔗 **Live report:** _(https://app.powerbi.com/view?r=eyJrIjoiMDQ4ZDFmNjItNTliNC00ZDAxLWEyYzItMzdmN2MwNTI1ZGFjIiwidCI6ImMzMmM5MzI0LTY0NWMtNDNiOC1hOGVkLTUyNThkZTAwY2VhMCJ9)_
 
 ---
 
@@ -61,24 +61,6 @@ Each page ends with a data‑driven **Key Insights** bar.
 - **Yield mix is the profit lever:** premium‑yield lanes drive **54%** of revenue on minority volume.
 - **Delay drivers:** Late Aircraft, Carrier and NAS; only **29%** of delayed departures recover in the air; OTP peaks ~88% in October.
 - **Hub bottlenecks:** average dwell ~93h, with **Amsterdam (~182h)** and London the worst vs Hong Kong (~40h).
-
----
-
-## 🛠️ Reproduce locally
-
-```bash
-# 1. Restore/prepare the source data in SQL Server (CargoOps) and reference CSVs
-# 2. Run the ETL to produce Parquet fact tables
-jupyter notebook etl_cargo_ops.ipynb        # clean + conform + feature-engineer
-python export_parquet.py                     # write /data/parquet/*
-
-# 3. Open the Power BI project
-#    Open "Cargo Operations Dashboard.pbip" in Power BI Desktop
-#    (enable Preview: File > Options > Preview features > "Power BI Project (.pbip)" + PBIR)
-```
-
-> The 902 MB `data/` folder and `.pbix` binaries are **git‑ignored** — the pipeline regenerates them. The committed source of truth is the **`.pbip` project** (TMDL semantic model + PBIR report) plus the ETL code.
-
 ---
 
 ## 📁 Repository structure
@@ -106,4 +88,4 @@ Built on the public **2015 U.S. flight‑performance dataset** (flights, airline
 
 **Magdoom Sarfaraz** — Data / Analytics Engineering
 🔗 GitHub: [github.com/sarfaraz-magdoom](https://github.com/sarfaraz-magdoom)
-_(add your LinkedIn link here)_
+_(https://www.linkedin.com/in/sarfaraz20/)_
