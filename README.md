@@ -80,7 +80,7 @@ About 30% of `fact_cargo_iq` rows have negative dwell times. Traced to the miles
 
 ## What I'd do differently
 
-Fix the dwell-time generator before building anything on top of it. I built the Power BI layer first and then found the bug, which meant reworking visuals that were already finished. Validate the fact tables, then model.
+Fix the dwell-time generator before building anything on top of it. I built the Power BI layer first and then found the bug, which meant reworking visuals that were already finished. Validate the fact tables, then model
 ---
 
 ## 🔎 Selected insights (FY2015)
@@ -110,4 +110,4 @@ cargo-ops-dashboard/
 
 **Magdoom Sarfaraz** — Data / Analytics Engineering
 🔗 GitHub: [github.com/sarfaraz-magdoom](https://github.com/sarfaraz-magdoom)
-_(https://www.linkedin.com/in/sarfaraz20/)_
+🔗 Linkedin: (https://www.linkedin.com/in/sarfaraz20/)_
